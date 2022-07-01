@@ -42,6 +42,37 @@ async function run() {
         res.send(result);
     });
 
+    app.put('/list/task/:id', async(req, res) =>{
+      const id = req.params.id;
+      const filter = {_id: ObjectId(id)};
+      const updateDoc = {
+        $set: {role: 'done'},
+      };
+      const result = await listCollection.findOneAndUpdate(filter, updateDoc);
+      res.send(result);
+  })
+
+  app.delete('/list/:id', async(req, res) =>{
+    const id = req.params.id;
+    const query = {_id: ObjectId(id)};
+    const result = await listCollection.deleteOne(query);
+    res.send(result);
+  })
+
+    app.put('/list/:id', async(req, res) =>{
+        const id = req.params.id;
+        const updateText = req.body;
+        const filter = {_id: ObjectId(id)};
+        const option = {upsert: true};
+        const updateDoc = {
+          $set:{
+            text: updateText.text,
+          }
+        };
+        const result = await listCollection.findOneAndUpdate(filter, updateDoc, option);
+        res.send(result);
+    })
+
   } 
   finally {
   }
