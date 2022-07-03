@@ -35,6 +35,7 @@ async function run() {
         res.send(result);
     });
 
+    // get
     app.get('/list/:id', async(req, res) =>{
         const id = req.params.id;
         const query = {_id: ObjectId(id)};
